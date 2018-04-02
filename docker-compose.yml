@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+    web:
+        ports:
+            - "8000:8000"
+        build: ./php-fpm
+        # working_dir: /php-fpm/app/laravel/public
+        command: php -S 0.0.0.0:8000
+        volumes:
+           - ./app/laravel:/var/www/html/laravel
+        # tty: true
+        links:
+            - mysql
+            - redis
+
+    mysql:
+        image: mysql:latest
+        ports:
+            - "3306:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=password
+
+    redis:
+        image: "redis:alpine"
+
